@@ -1,0 +1,8 @@
+mms://cdnmms.cnr.cn/cnr001
+mms://cdnmms.cnr.cn/cnr002
+mms://cdnmms.cnr.cn/cnr003
+mms://live.cri.cn/oldies
+mms://live.cri.cn/pop
+mms://live.cri.cn/country
+mms://enmms.chinabroadcast.cn/fm91.5
+mms://media.crinewsradio.cn/crinewsradio
