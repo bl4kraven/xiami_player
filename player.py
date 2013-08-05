@@ -29,9 +29,9 @@ class Player(threading.Thread):
                 #print line
                 #line.startswith("A:"):
             else:
-                print "call callable"
-                if (callable(self.callback)):
-                    self.callback(self)
+                print "call callback"
+                if (self.callback):
+                    self.callback.play()
 
 
     def set_callback(self, callback):
