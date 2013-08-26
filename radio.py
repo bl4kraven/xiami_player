@@ -86,6 +86,11 @@ class xiami_player(radio):
         self.play()
 
     def backward(self):
+        if self.index-1 > 0:
+            self.index -= 2
+            self.play()
+
+    def next_list(self):
         if self._list:
             self.index = self._list.size()
         self.play()
@@ -105,8 +110,7 @@ def usage(name):
 if __name__ == "__main__":
 
     channel_file = None
-    list_id_file = None
-
+    list_id_file = None 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "c:l:")
     except getopt.GetoptError as err:
@@ -144,6 +148,8 @@ if __name__ == "__main__":
             my_radio.forward()
         elif input_char == "<":
             my_radio.backward()
+        elif input_char == "z":
+            my_radio.next_list()
         elif input_char == "9":
             my_radio.volume_dec()
         elif input_char == "0":

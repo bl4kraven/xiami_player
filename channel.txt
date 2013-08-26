@@ -1,6 +1,3 @@
-mms://cdnmms.cnr.cn/cnr001
-mms://cdnmms.cnr.cn/cnr002
-mms://cdnmms.cnr.cn/cnr003
 mms://live.cri.cn/oldies
 mms://live.cri.cn/pop
 mms://live.cri.cn/country
