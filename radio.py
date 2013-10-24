@@ -132,7 +132,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     myplayer = Player()
-    myplayer.start()
+    myplayer.player_start()
 
     radios = [online_radio(myplayer, channel_file), xiami_player(myplayer, list_id_file)]
     my_radio = radios[0]
@@ -155,8 +155,11 @@ if __name__ == "__main__":
         elif input_char == "0":
             my_radio.volume_inc()
         elif input_char == "x":
+            # must restart player, player may be stuck on radio mode
+            myplayer.player_restart()
             radios.append(radios.pop(0))
             my_radio = radios[0]
             my_radio.play()
 
     myplayer.player_close()
+    myplayer.destroy()
