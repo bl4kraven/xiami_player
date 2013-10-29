@@ -5,6 +5,7 @@ import threading
 import thread
 import subprocess
 import time
+import os
 from select import select
 
 class Player(threading.Thread):
@@ -104,10 +105,12 @@ class Player(threading.Thread):
         self.request("pt_step -1\n")
 
     def volume_inc(self):
-        self.request("volume 1\n")
-        
+        #self.request("volume 1\n")
+        os.system("amixer sset PCM 1dB+ >/dev/null")
+
     def volume_dec(self):
-        self.request("volume -1\n")
+        #self.request("volume -1\n")
+        os.system("amixer sset PCM 1dB- >/dev/null")
 
     def get_pos(self):
         self.request("get_percent_pos\n")
