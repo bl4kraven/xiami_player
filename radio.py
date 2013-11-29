@@ -3,6 +3,7 @@
 
 import getopt
 import sys
+import os
 from core import *
 from player import Player
 
@@ -27,6 +28,9 @@ class radio():
 
     def pause(self):
         self.player.pause()
+
+    def next_list(self):
+        pass
 
 class online_radio(radio):
     def __init__(self, _player, channel_txt):
@@ -80,7 +84,7 @@ class xiami_player(radio):
             else:
                 logger.debug("list id is empty");
         except:
-            logger.error("load song fail, list_id=%d"%self.list_id)
+            logger.error("load song fail")
 
     def forward(self):
         self.play()
@@ -128,6 +132,11 @@ if __name__ == "__main__":
 
     if not channel_file or not list_id_file:
         print "not specific channel file or list id file"
+        usage(sys.argv[0])
+        sys.exit(1)
+
+    if not os.path.isfile(channel_file) or not os.path.isfile(list_id_file):
+        print "file not exist"
         usage(sys.argv[0])
         sys.exit(1)
 
