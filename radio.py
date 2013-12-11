@@ -147,28 +147,31 @@ if __name__ == "__main__":
     my_radio = radios[0]
     my_radio.play()
 
-    while True:
-        input_char = raw_input("")
-        if input_char == "q":
-            break
-        elif input_char == "p":
-            my_radio.pause()
-        elif input_char == ">":
-            my_radio.forward()
-        elif input_char == "<":
-            my_radio.backward()
-        elif input_char == "z":
-            my_radio.next_list()
-        elif input_char == "9":
-            my_radio.volume_dec()
-        elif input_char == "0":
-            my_radio.volume_inc()
-        elif input_char == "x":
-            # must restart player, player may be stuck on radio mode
-            myplayer.player_restart()
-            radios.append(radios.pop(0))
-            my_radio = radios[0]
-            my_radio.play()
+    try:
+        while True:
+            input_char = raw_input("")
+            if input_char == "q":
+                break
+            elif input_char == "p":
+                my_radio.pause()
+            elif input_char == ">":
+                my_radio.forward()
+            elif input_char == "<":
+                my_radio.backward()
+            elif input_char == "z":
+                my_radio.next_list()
+            elif input_char == "9":
+                my_radio.volume_dec()
+            elif input_char == "0":
+                my_radio.volume_inc()
+            elif input_char == "x":
+                # must restart player, player may be stuck on radio mode
+                myplayer.player_restart()
+                radios.append(radios.pop(0))
+                my_radio = radios[0]
+                my_radio.play()
+    except KeyboardInterrupt:
+        pass
 
     myplayer.player_close()
     myplayer.destroy()
