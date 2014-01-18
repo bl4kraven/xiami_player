@@ -9,7 +9,7 @@ import urllib2
 
 def get_logger(log_name):
     format = "%(asctime)s %(levelname)s %(message)s"
-    level = logging.DEBUG
+    level = logging.INFO
     logging.basicConfig(format=format, level=level)
     logger = logging.getLogger(log_name)
     #handler = SysLogHandler(address="/dev/log")
@@ -33,6 +33,11 @@ class MyObject():
             else:
                 value = ""
             setattr(self, name, value)
+
+    def show(self):
+        for v, k in self.__dict__.iteritems():
+            if not v.startswith("__"):
+                logger.info("%s: %s"%(v, k))
 
 
 class Song(MyObject):
@@ -72,7 +77,8 @@ class Song(MyObject):
 
     def show(self):
         logger.info("song_id:%s"%self.song_id)
-        logger.info("location:%s"%self.location)
+        logger.info("url:%s"%self.url)
+        MyObject.show(self)
 
 class Songlist(MyObject):
 
@@ -91,13 +97,13 @@ class Songlist(MyObject):
             if (childNode.nodeType == childNode.ELEMENT_NODE):
                 song = Song()
                 song.parse_node(childNode)
+                song.load_streaming()
                 self.songs.append(song)
         return self.songs
                 
     def show(self):
         for song in self.songs:
             song.show()
-            logger.info("")
 
     def size(self):
         return len(self.songs)
@@ -110,15 +116,14 @@ class play_list(Songlist):
         self.url = url
 
     def load_songs(self):
-        logger.info("load radio songs id:%d ..."%self.id)
+        #logger.info("load radio songs id:%d ..."%self.id)
 
         headers = { "User-Agent":"Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:21.0) Gecko/20100101 Firefox/21.0"}
         request = urllib2.Request(self.url, headers=headers)
         urlopener = urllib2.urlopen(request)
         xml = urlopener.read()
-        self.parse_xml(xml)
-        for song in self.songs:
-            song.load_streaming()
+        if xml:
+            self.parse_xml(xml)
         return self.songs
 
 class radio_list(play_list):
@@ -137,6 +142,6 @@ class classic_list(play_list):
         play_list.__init__(self, id, "http://www.xiami.com/song/playlist/id/%d/type/3"%id)
 
 if __name__ == "__main__":
-    radio_test = album_list(8375097)
-    radio_test.load_songs()
+    radio_test = album_list(10982)
+    songs = radio_test.load_songs()
     radio_test.show()
