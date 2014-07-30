@@ -58,9 +58,14 @@ def download_album(album_id, download_dir, report_hook):
             for song in songs:
                 song_name = song.title.encode("utf8")
                 print "下载:", song_name
-                song_lrc_path = path.join(album_path, song_name+".lrc")
-                if not path.exists(song_lrc_path):
-                    urllib.urlretrieve(song.lyric, song_lrc_path)
+                
+                try:
+                    song_lrc_path = path.join(album_path, song_name+".lrc")
+                    if not path.exists(song_lrc_path):
+                        urllib.urlretrieve(song.lyric, song_lrc_path)
+                except IOError:
+                    print "下载歌词失败"
+                    pass
 
                 song_path = path.join(album_path, song_name+".mp3")
                 if not path.exists(song_path):
@@ -70,8 +75,9 @@ def download_album(album_id, download_dir, report_hook):
                 # add mp3 ID3 Tag
                 _add_ID3(song_path.decode("utf8"), song.artist, song.album_name, song.title, index)
                 index += 1
-        except IOError:
+        except IOError as err:
             print "下载失败"
+            print err
     else:
         print "没找到相应专辑"
 
